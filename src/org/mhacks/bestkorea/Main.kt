@@ -23,5 +23,7 @@ val NEARD = "org.neard"
 fun main(args: Array<String>) {
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
   val adapter = conn.adapter
-  print(adapter.tags.firstOrNull()?.name ?: "No tag")
+  while (true) adapter.tags let {
+    if (it.isNotEmpty()) println(it)
+  }
 }

@@ -15,4 +15,5 @@ abstract class DBusModel(val interfaceName: String, val connection: DBusConnecti
   }
   fun <T> get(propertyName: String): T = properties.Get(interfaceName, propertyName)
   val name: String get() = get("Name")
+  override fun toString(): String = name
 }
