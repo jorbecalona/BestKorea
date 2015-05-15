@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_bestkorea" default="compile.module.bestkorea">
+  <dirname property="module.bestkorea.basedir" file="${ant.file.module_bestkorea}"/>
+  
+  <property name="module.jdk.home.bestkorea" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.bestkorea" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.bestkorea" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.bestkorea" value="-encoding UTF-8 -source 8 ${compiler.args}"/>
+  
+  <property name="bestkorea.output.dir" value="${module.bestkorea.basedir}/out/production/BestKorea"/>
+  <property name="bestkorea.testoutput.dir" value="${module.bestkorea.basedir}/out/test/BestKorea"/>
+  
+  <path id="bestkorea.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="bestkorea.module.production.classpath">
+    <path refid="${module.jdk.classpath.bestkorea}"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+  </path>
+  
+  <path id="bestkorea.runtime.production.module.classpath">
+    <pathelement location="${bestkorea.output.dir}"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+  </path>
+  
+  <path id="bestkorea.module.classpath">
+    <path refid="${module.jdk.classpath.bestkorea}"/>
+    <pathelement location="${bestkorea.output.dir}"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+  </path>
+  
+  <path id="bestkorea.runtime.module.classpath">
+    <pathelement location="${bestkorea.testoutput.dir}"/>
+    <pathelement location="${bestkorea.output.dir}"/>
+    <path refid="library.kotlinjavaruntime.classpath"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.bestkorea">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.bestkorea">
+    <patternset refid="excluded.from.module.bestkorea"/>
+  </patternset>
+  
+  <path id="bestkorea.module.sourcepath">
+    <dirset dir="${module.bestkorea.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.bestkorea" depends="compile.module.bestkorea.production,compile.module.bestkorea.tests" description="Compile module BestKorea"/>
+  
+  <target name="compile.module.bestkorea.production" depends="register.custom.compilers" description="Compile module BestKorea; production classes">
+    <mkdir dir="${bestkorea.output.dir}"/>
+    <javac2 destdir="${bestkorea.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.bestkorea}/javac">
+      <compilerarg line="${compiler.args.bestkorea}"/>
+      <bootclasspath refid="bestkorea.module.bootclasspath"/>
+      <classpath refid="bestkorea.module.production.classpath"/>
+      <src refid="bestkorea.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.bestkorea"/>
+    </javac2>
+    
+    <copy todir="${bestkorea.output.dir}">
+      <fileset dir="${module.bestkorea.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.bestkorea.tests" depends="register.custom.compilers,compile.module.bestkorea.production" description="compile module BestKorea; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.bestkorea" description="cleanup module">
+    <delete dir="${bestkorea.output.dir}"/>
+    <delete dir="${bestkorea.testoutput.dir}"/>
+  </target>
+</project>
