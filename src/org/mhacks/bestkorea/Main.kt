@@ -34,27 +34,36 @@ object Objects {
   val TAG = "$ADAPTER/tag0"
 }
 
-// TODO: Adapter and Tag interfaces
+// TODO: Adapter and Tag method interfaces
 
-DBusInterfaceName("org.freedesktop.DBus.Properties") class Adapter(val connection: DBusConnection) {
+class Adapter(val connection: DBusConnection, val name: String = Objects.ADAPTER) {
   private val properties: DBus.Properties
   init {
-    properties = connection.getRemoteObject(NEARD, Objects.ADAPTER, javaClass<DBus.Properties>())
+    properties = connection.getRemoteObject(NEARD, name, javaClass<DBus.Properties>())
   }
   fun <T> get(propertyName: String): T = properties.Get(Interfaces.ADAPTER, propertyName)
-  val name: String get() = get("Name")
   val mode: String get() = get("Mode")
   val polling: Boolean get() = get("Polling")
   val powered: Boolean get() = get("Powered")
   val protocols: Vector<String> get() = get("Protocols")
+  val tagPaths: List<String> get() = get<Vector<*>>("Tags").mapNotNull { it.toString() }
+  val tags: List<Tag> get() = tagPaths.mapNotNull { Tag(connection, it) }
 }
 
-DBusInterfaceName(Interfaces.TAG) trait Tag : DBusInterface {
-  override fun isRemote() = true
+class Tag(val connection: DBusConnection, val name: String) {
+  private val properties: DBus.Properties
+  init {
+    properties = connection.getRemoteObject(NEARD, name, javaClass<DBus.Properties>())
+  }
+  fun <T> get(propertyName: String): T = properties.Get(Interfaces.TAG, propertyName)
+  val protocol: String get() = get("Protocol")
+  val readOnly: Boolean get() = get("ReadOnly")
+  val adapterPath: String get() = get<Any>("Adapter").toString()
+  val adapter: Adapter get() = Adapter(connection, adapterPath)
 }
 
 fun main(args: Array<String>) {
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
   val adapter = Adapter(conn)
-  print(adapter.protocols)
+  print(adapter.tags.firstOrNull()?.name ?: "No tag")
 }
