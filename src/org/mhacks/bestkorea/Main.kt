@@ -36,8 +36,17 @@ object Objects {
 
 // TODO: Adapter and Tag interfaces
 
-DBusInterfaceName(Interfaces.ADAPTER) trait Adapter : DBusInterface {
-  override fun isRemote() = true
+DBusInterfaceName("org.freedesktop.DBus.Properties") class Adapter(val connection: DBusConnection) {
+  private val properties: DBus.Properties
+  init {
+    properties = connection.getRemoteObject(NEARD, Objects.ADAPTER, javaClass<DBus.Properties>())
+  }
+  fun <T> get(propertyName: String): T = properties.Get(Interfaces.ADAPTER, propertyName)
+  val name: String get() = get("Name")
+  val mode: String get() = get("Mode")
+  val polling: Boolean get() = get("Polling")
+  val powered: Boolean get() = get("Powered")
+  val protocols: Vector<String> get() = get("Protocols")
 }
 
 DBusInterfaceName(Interfaces.TAG) trait Tag : DBusInterface {
@@ -46,6 +55,6 @@ DBusInterfaceName(Interfaces.TAG) trait Tag : DBusInterface {
 
 fun main(args: Array<String>) {
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
-  val adapter = conn.getRemoteObject(NEARD, Objects.ADAPTER, javaClass<DBus.Properties>())
-  print(adapter.GetAll(Interfaces.ADAPTER))
+  val adapter = Adapter(conn)
+  print(adapter.protocols)
 }
