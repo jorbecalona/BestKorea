@@ -5,6 +5,10 @@ import org.freedesktop.dbus.DBusConnection
 import org.freedesktop.dbus.DBusInterface
 import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.mhacks.bestkorea.NEARD
+import org.mhacks.bestkorea.property.ReadOnlyDbusProperty
+import org.mhacks.bestkorea.property.ReadWriteDbusProperty
+import kotlin.properties.ReadOnlyProperty
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
 import kotlin.reflect.jvm.kotlin
@@ -33,6 +37,7 @@ abstract class DBusModel <T: DBusInterface> (
 
   fun <T> get(propertyName: String): T = Get(interfaceName, propertyName)
   fun <T> set(propertyName: String, propertyValue: T) = Set(interfaceName, propertyName, propertyValue)
+
   fun <T: DBusModel<*>> acquire(paths: List<String>, factory: Factory<T>) = paths.flatMap {
     try {
       listOf(factory.create(connection, it))
@@ -40,6 +45,9 @@ abstract class DBusModel <T: DBusInterface> (
       emptyList<T>()
     }
   }
+
+  fun <T> writableProperty(name: String) = ReadWriteDbusProperty<T>(name)
+  fun <T> readOnlyProperty(name: String) = ReadOnlyDbusProperty<T>(name)
 
   val name: String get() = get("Name")
 

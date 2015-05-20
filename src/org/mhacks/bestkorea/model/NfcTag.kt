@@ -23,9 +23,10 @@ class NfcTag(connection: DBusConnection,
     override fun create(connection: DBusConnection, path: String) = NfcTag(connection, path)
   }
 
-  val protocol: String get() = get("Protocol")
-  val readOnly: Boolean get() = get("ReadOnly")
+  val protocol: String by readOnlyProperty("Protocol")
+  val readOnly: Boolean by readOnlyProperty("ReadOnly")
   val adapterPath: String get() = get<Any>("Adapter").toString()
+
   val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
   val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
 

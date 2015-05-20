@@ -38,12 +38,10 @@ class NfcAdapter(connection: DBusConnection,
   fun startPollLoop(mode: PollMode) = StartPollLoop(mode.name)
   fun stopPollLoop() = StopPollLoop()
 
-  val mode: String get() = get("Mode")
-  val polling: Boolean get() = get("Polling")
-  var powered: Boolean
-    get() = get("Powered")
-    set(powered) = set("Powered", powered)
-  val protocols: List<String> get() = get("Protocols")
+  val mode: String by readOnlyProperty("Mode")
+  val polling: Boolean by readOnlyProperty("Polling")
+  var powered: Boolean by writableProperty("Powered")
+  val protocols: List<String> by readOnlyProperty("Protocols")
 
   val tagPaths: List<String> get() = get<List<*>>("Tags").mapToStrings()
   val tags: List<NfcTag> get() = acquire(tagPaths, NfcTag)

@@ -23,13 +23,13 @@ class NfcRecord(connection: DBusConnection,
     override fun create(connection: DBusConnection, path: String) = NfcRecord(connection, path)
   }
 
-  val encoding: String get() = get("Encoding")
-  val language: String get() = get("Language")
-  val representation: String get() = get("Representation")
-  val uri: String get() = get("URI")
-  val mimeType: String get() = get("MIMEType")
-  val size: Int get() = get("Size")
-  val action: String get() = get("Action")
-  val androidPackage: String get() = get("AndroidPackage")
+  val encoding: String by readOnlyProperty("Encoding")
+  val language: String by readOnlyProperty("Language")
+  val representation: String by readOnlyProperty("Representation")
+  val uri: String by readOnlyProperty("URI")
+  val mimeType: String by readOnlyProperty("MIMEType")
+  val size: Int by readOnlyProperty("Size")
+  val action: String by readOnlyProperty("Action")
+  val androidPackage: String by readOnlyProperty("AndroidPackage")
 
 }
