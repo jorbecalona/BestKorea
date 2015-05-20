@@ -2,6 +2,7 @@ package org.mhacks.bestkorea.model
 
 import org.freedesktop.dbus.DBusConnection
 import org.mhacks.bestkorea.NEARD
+import org.mhacks.bestkorea.mapToStrings
 import kotlin.platform.platformStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
@@ -17,13 +18,15 @@ class NfcTag(connection: DBusConnection,
              iface: ITag = connection.getRemoteObject(NEARD, objectPath, type.java))
 : DBusModel<ITag>(type, NfcTag.INTERFACE, connection, objectPath, iface = iface), ITag by iface {
 
-  companion object {
+  companion object: DBusModel.Factory<NfcTag> {
     platformStatic val INTERFACE = "$NEARD.Tag"
+    override fun create(connection: DBusConnection, path: String) = NfcTag(connection, path)
   }
 
   val protocol: String get() = get("Protocol")
   val readOnly: Boolean get() = get("ReadOnly")
   val adapterPath: String get() = get<Any>("Adapter").toString()
-  val adapter: NfcAdapter get() = NfcAdapter(connection, adapterPath)
+  val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
+  val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
 
 }
