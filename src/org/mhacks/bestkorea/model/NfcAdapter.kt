@@ -30,8 +30,8 @@ class NfcAdapter(connection: DBusConnection,
     get() = get("Powered")
     set(powered) = set("Powered", powered)
   val protocols: List<String> get() = get("Protocols")
-  fun getTagPaths(): List<String> = get<Vector<*>>("Tags").mapNotNull { it.toString() }
-  fun getTags(): List<NfcTag> = getTagPaths().flatMap {
+  val tagPaths: List<String> get() = get<Vector<*>>("Tags").mapNotNull { it.toString() }
+  val tags: List<NfcTag> get() = tagPaths.flatMap {
     try {
       listOf(NfcTag(connection, it))
     } catch (error: DBusExecutionException) {

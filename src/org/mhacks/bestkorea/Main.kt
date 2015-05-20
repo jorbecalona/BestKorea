@@ -21,31 +21,18 @@ val NEARD = "org.neard"
 
 // TODO: Adapter and Tag method interfaces
 
-//class Waiter : Thread("WaitThread") {
-//  override fun run() {
-//    this.
-//  }
-//}
-
 fun main(args: Array<String>) {
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
   val adapter = conn.adapter
   println("Powering...")
   adapter.powered = true
-  println("Setting listeners...")
-  conn.onTagFound {
-    println("Tag found: ${it.name}")
-  }
-  conn.onTagLost {
-    println("Tag lost: $it")
-  }
   println("Ready!")
   while (true) {
     if (!adapter.polling) {
       println("Starting poll loop...")
       adapter.StartPollLoop("Dual")
     }
-    val foo = adapter.getTags()
+    val foo = adapter.tags
     if (foo.isNotEmpty()) {
       println(foo)
     }
