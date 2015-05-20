@@ -3,7 +3,7 @@ package org.mhacks.bestkorea.model
 import org.freedesktop.dbus.DBusConnection
 import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.mhacks.bestkorea.NEARD
-import org.mhacks.bestkorea.mapToStrings
+import org.mhacks.bestkorea.common.mapToStrings
 import org.mhacks.bestkorea.model.NfcTag
 import java.util.*
 import kotlin.platform.platformStatic

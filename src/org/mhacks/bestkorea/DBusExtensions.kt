@@ -22,7 +22,6 @@ fun <T: DBusSignal> toSigHandler(body: (T) -> Unit) = object: DBusSigHandler<T> 
   }
 }
 fun <T: DBusSignal> DBusConnection.addSigHandler(type: KClass<T>, body: (T) -> Unit) = addSigHandler(type.java, toSigHandler(body))
-fun <T: Any?> List<T>.mapToStrings() = mapNotNull { it.toString() }
 fun DBusConnection.onTagFound(body: (NfcTag) -> Unit) = addSigHandler(IAdapter.TagFound::class) { signal ->
   body(NfcTag(this))
 }

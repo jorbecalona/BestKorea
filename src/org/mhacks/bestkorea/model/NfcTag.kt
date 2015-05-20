@@ -2,7 +2,7 @@ package org.mhacks.bestkorea.model
 
 import org.freedesktop.dbus.DBusConnection
 import org.mhacks.bestkorea.NEARD
-import org.mhacks.bestkorea.mapToStrings
+import org.mhacks.bestkorea.common.mapToStrings
 import kotlin.platform.platformStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
