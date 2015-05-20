@@ -12,6 +12,7 @@ import org.mhacks.bestkorea.common.networkInterface
 import org.mhacks.bestkorea.model.IAdapter
 import org.mhacks.bestkorea.model.NfcAdapter
 import java.net.InetAddress
+import java.net.NetworkInterface
 import java.util.*
 
 /**
@@ -26,7 +27,9 @@ import java.util.*
 val NEARD = "org.neard"
 
 fun main(args: Array<String>) {
-  println("MAC: ${InetAddress.getLocalHost().networkInterface.hardwareAddress.asAddress()}")
+  val interfaces = NetworkInterface.getNetworkInterfaces().asSequence()
+  val mac = interfaces.firstOrNull()?.hardwareAddress?.asAddress()
+  println("MAC: $mac")
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
   val adapter = conn.adapter
   println("Powering...")

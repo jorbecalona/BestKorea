@@ -10,5 +10,5 @@ import java.net.NetworkInterface
  */
 val InetAddress.networkInterface: NetworkInterface get() = NetworkInterface.getByInetAddress(this)
 val NetworkInterface.hardwareAddress: ByteArray get() = getHardwareAddress()
-fun ByteArray.asAddress() = map { "%02X%s".format(it) }.join("-")
+fun ByteArray.asAddress() = map { "%02X".format(it) }.join("-")
 
