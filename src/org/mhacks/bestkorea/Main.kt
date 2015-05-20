@@ -28,10 +28,7 @@ fun main(args: Array<String>) {
   adapter.powered = true
   println("Ready!")
   while (true) {
-    if (!adapter.polling) {
-      println("Starting poll loop...")
-      adapter.StartPollLoop("Dual")
-    }
+    if (!adapter.polling) adapter.StartPollLoop("Dual")
     val foo = adapter.tags
     if (foo.isNotEmpty()) {
       println(foo)
