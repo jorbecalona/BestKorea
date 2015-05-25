@@ -8,6 +8,6 @@ import java.util.*
  * @since 24/05/15
  * (C) 2015 Damian Wieczorek
  */
-data class Event(Expose val mac: String,
-                 Expose val tag: NfcTag,
-                 Expose val date: Date = Date())
+data class Event(val mac: String,
+                 val tag: NfcTag,
+                 val date: Date = Date())

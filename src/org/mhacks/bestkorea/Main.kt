@@ -9,15 +9,12 @@ import org.freedesktop.dbus.DBusInterfaceName
 import org.freedesktop.dbus.Variant
 import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.freedesktop.dbus.types.DBusListType
-import org.mhacks.bestkorea.api.ApiService
 import org.mhacks.bestkorea.api.DdpApi
 import org.mhacks.bestkorea.common.asAddress
 import org.mhacks.bestkorea.common.hardwareAddress
 import org.mhacks.bestkorea.common.networkInterface
 import org.mhacks.bestkorea.model.*
 import org.mhacks.bestkorea.serialization.KotlinTypeSerializer
-import retrofit.RestAdapter
-import retrofit.converter.GsonConverter
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.nio.charset.Charset
@@ -38,7 +35,6 @@ fun main(args: Array<String>) {
   val interfaces = NetworkInterface.getNetworkInterfaces().asSequence()
   val mac = interfaces.firstOrNull()!!.hardwareAddress.asAddress()
   println("MAC Address: $mac")
-
   val conn = DBusConnection.getConnection(DBusConnection.SYSTEM)
   val adapter = conn.adapter
   println("Powering...")
