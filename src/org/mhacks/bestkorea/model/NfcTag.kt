@@ -26,8 +26,8 @@ class NfcTag(connection: DBusConnection,
   }
 
   fun write(values: Map<String, Variant<String>>) = Write(values)
-  fun raw() = GetRawNDEF()
 
+  val raw: ByteArray get() = GetRawNDEF()
   val protocol: String by readOnlyProperty("Protocol")
   val readOnly: Boolean by readOnlyProperty("ReadOnly")
   val adapterPath: String get() = get<Any>("Adapter").toString()
@@ -35,5 +35,5 @@ class NfcTag(connection: DBusConnection,
   val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
   val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
 
-  override fun toString(): String = raw().toString()
+  override fun toString(): String = raw.toString()
 }

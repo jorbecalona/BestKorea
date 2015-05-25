@@ -58,11 +58,11 @@ fun main(args: Array<String>) {
     val foo = adapter.tags
     if (foo.isNotEmpty())  {
       try {
-        val records = foo.firstOrNull()?.records
-        if (records != null) {
-          service.createEvent(Event(mac, records))
+        val tag = foo.firstOrNull()
+        if (tag != null) {
+          service.createEvent(Event(mac, tag))
         }
-        println(records)
+        println(tag)
       } catch (error: DBusExecutionException) {
         println("Oops, couldn't read :(")
       }

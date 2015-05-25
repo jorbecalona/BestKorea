@@ -9,5 +9,5 @@ import java.util.*
  * (C) 2015 Damian Wieczorek
  */
 data class Event(Expose val mac: String,
-                 Expose val records: List<NfcRecord>,
+                 Expose val tag: NfcTag,
                  Expose val date: Date = Date())
