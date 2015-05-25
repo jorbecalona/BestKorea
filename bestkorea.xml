@@ -91,22 +91,28 @@
   
   <!-- Project Libraries -->
   
+  <path id="library.dbus-java-bin-2.7.classpath">
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+    <pathelement location="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+  </path>
+  
+  <path id="library.hexdump-0.2.classpath">
+    <pathelement location="${basedir}/../../../../usr/share/java/hexdump-0.2.jar"/>
+  </path>
+  
+  <path id="library.java-ddp-client.classpath">
+    <pathelement location="${basedir}/../../Downloads/java-ddp-client/classes/artifacts/java_ddp_client_jar/java-ddp-client.jar"/>
+  </path>
+  
   <path id="library.kotlinjavaruntime.classpath">
     <pathelement location="${path.variable.kotlin_bundled}/lib/kotlin-reflect.jar"/>
     <pathelement location="${path.variable.kotlin_bundled}/lib/kotlin-runtime.jar"/>
   </path>
-  <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
-  <path id="javac2.classpath">
-    <pathelement location="${javac2.home}/javac2.jar"/>
-    <pathelement location="${javac2.home}/jdom.jar"/>
-    <pathelement location="${javac2.home}/asm-all.jar"/>
-    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  
+  <path id="library.unix.classpath">
+    <pathelement location="${basedir}/../../../../usr/share/java/unix.jar"/>
   </path>
-  <target name="register.custom.compilers">
-    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
-    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
-  </target>
   
   <!-- Modules -->
   
@@ -120,5 +126,46 @@
   
   <target name="build.modules" depends="init, clean, compile.module.bestkorea" description="build all modules"/>
   
-  <target name="all" depends="build.modules" description="build all"/>
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.bestkorea:jar" value="${basedir}/out/artifacts/BestKorea_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.BestKorea.jar" value="${artifacts.temp.dir}/BestKorea.jar"/>
+  </target>
+  
+  <target name="artifact.bestkorea:jar" depends="init.artifacts, compile.module.bestkorea" description="Build &#39;BestKorea:jar&#39; artifact">
+    <property name="artifact.temp.output.bestkorea:jar" value="${artifacts.temp.dir}/BestKorea_jar"/>
+    <mkdir dir="${artifact.temp.output.bestkorea:jar}"/>
+    <jar destfile="${temp.jar.path.BestKorea.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${bestkorea.output.dir}"/>
+      <zipfileset src="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-bin-2.7.jar"/>
+      <zipfileset src="${basedir}/../../Downloads/dbus-java-2.7/dbus-java-viewer-2.7.jar"/>
+      <zipfileset src="${basedir}/../../Downloads/dbus-java-2.7/libdbus-java-2.7.jar"/>
+      <zipfileset src="${basedir}/../../../../usr/share/java/io-0.1.jar"/>
+      <zipfileset src="${path.variable.kotlin_bundled}/lib/kotlin-runtime.jar"/>
+      <zipfileset src="${path.variable.kotlin_bundled}/lib/kotlin-reflect.jar"/>
+      <zipfileset src="${basedir}/../../../../usr/share/java/unix.jar"/>
+      <zipfileset src="${basedir}/../../../../usr/share/java/hexdump-0.2.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/google/code/gson/gson/2.3.1/gson-2.3.1.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/java-websocket/Java-WebSocket/1.3.0/Java-WebSocket-1.3.0.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/slf4j/slf4j-api/1.7.12/slf4j-api-1.7.12.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/nimbusds/srp6a/1.5.2/srp6a-1.5.2.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/org/slf4j/slf4j-simple/1.7.12/slf4j-simple-1.7.12.jar"/>
+      <zipfileset src="${basedir}/../../Downloads/java-ddp-client/classes/artifacts/java_ddp_client_jar/java-ddp-client.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.BestKorea.jar}" tofile="${artifact.temp.output.bestkorea:jar}/BestKorea.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.bestkorea:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.bestkorea:jar}"/>
+    <copy todir="${artifact.output.bestkorea:jar}">
+      <fileset dir="${artifact.temp.output.bestkorea:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
 </project>
