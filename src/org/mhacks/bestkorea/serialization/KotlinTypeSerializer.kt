@@ -15,11 +15,10 @@ import kotlin.reflect.jvm.kotlin
  * (C) 2015 Damian Wieczorek
  */
 class KotlinTypeSerializer : JsonSerializer<Any> {
-  override fun serialize(source: Any, type: Type, context: JsonSerializationContext): JsonElement? {
-    val jsonObject = JsonObject()
+  override fun serialize(source: Any, type: Type, context: JsonSerializationContext): JsonElement? = JsonObject() let { dest ->
     source.javaClass.kotlin.properties.forEach {
-      jsonObject.add(it.name, context.serialize(it.get(source)))
+      dest.add(it.name, context.serialize(it.get(source)))
     }
-    return jsonObject
+    dest
   }
 }

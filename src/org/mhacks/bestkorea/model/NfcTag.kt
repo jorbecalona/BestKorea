@@ -28,12 +28,12 @@ class NfcTag(connection: DBusConnection,
   fun write(values: Map<String, Variant<String>>) = Write(values)
   fun raw() = GetRawNDEF()
 
-  Expose val protocol: String by readOnlyProperty("Protocol")
-  Expose val readOnly: Boolean by readOnlyProperty("ReadOnly")
-  Expose val adapterPath: String get() = get<Any>("Adapter").toString()
+  val protocol: String by readOnlyProperty("Protocol")
+  val readOnly: Boolean by readOnlyProperty("ReadOnly")
+  val adapterPath: String get() = get<Any>("Adapter").toString()
 
   val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
-  Expose val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
+  val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
 
   override fun toString(): String = raw().toString()
 }
