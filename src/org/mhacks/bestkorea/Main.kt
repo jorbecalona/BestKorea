@@ -10,6 +10,7 @@ import org.freedesktop.dbus.Variant
 import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.freedesktop.dbus.types.DBusListType
 import org.mhacks.bestkorea.api.ApiService
+import org.mhacks.bestkorea.api.DdpApi
 import org.mhacks.bestkorea.common.asAddress
 import org.mhacks.bestkorea.common.hardwareAddress
 import org.mhacks.bestkorea.common.networkInterface
@@ -43,15 +44,7 @@ fun main(args: Array<String>) {
   println("Powering...")
   adapter.powered = true
   println("Creating API service...")
-  val service = RestAdapter.Builder()
-    .setEndpoint("http://rho:3000/")
-    .setConverter(GsonConverter(GsonBuilder()
-      .excludeFieldsWithoutExposeAnnotation()
-      .registerTypeAdapter(javaClass<NfcTag>(), KotlinTypeSerializer())
-      .registerTypeAdapter(javaClass<NfcRecord>(), KotlinTypeSerializer())
-      .create()))
-    .build()
-    .create(javaClass<ApiService>())
+  val service = DdpApi()
   println("Ready!")
   while (true) {
     if (!adapter.polling) adapter.startPollLoop(NfcAdapter.PollMode.DUAL)
