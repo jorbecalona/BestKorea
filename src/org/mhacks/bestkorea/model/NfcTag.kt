@@ -1,6 +1,8 @@
 package org.mhacks.bestkorea.model
 
+import com.google.gson.annotations.Expose
 import org.freedesktop.dbus.DBusConnection
+import org.freedesktop.dbus.Variant
 import org.mhacks.bestkorea.NEARD
 import org.mhacks.bestkorea.common.mapToStrings
 import kotlin.platform.platformStatic
@@ -23,11 +25,15 @@ class NfcTag(connection: DBusConnection,
     override fun create(connection: DBusConnection, path: String) = NfcTag(connection, path)
   }
 
-  val protocol: String by readOnlyProperty("Protocol")
-  val readOnly: Boolean by readOnlyProperty("ReadOnly")
-  val adapterPath: String get() = get<Any>("Adapter").toString()
+  fun write(values: Map<String, Variant<String>>) = Write(values)
+  fun raw() = GetRawNDEF()
+
+  Expose val protocol: String by readOnlyProperty("Protocol")
+  Expose val readOnly: Boolean by readOnlyProperty("ReadOnly")
+  Expose val adapterPath: String get() = get<Any>("Adapter").toString()
 
   val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
-  val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
+  Expose val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
 
+  override fun toString(): String = raw().toString()
 }

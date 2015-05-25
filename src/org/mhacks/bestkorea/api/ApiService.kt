@@ -1,5 +1,7 @@
 package org.mhacks.bestkorea.api
 
+import org.mhacks.bestkorea.model.Event
+import retrofit.http.Body
 import retrofit.http.GET
 import retrofit.http.POST
 
@@ -9,4 +11,5 @@ import retrofit.http.POST
  * (C) 2015 Damian Wieczorek
  */
 trait ApiService {
+  POST("/events") fun createEvent(Body event: Event): Event
 }

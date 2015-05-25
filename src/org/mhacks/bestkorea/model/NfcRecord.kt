@@ -1,6 +1,7 @@
 package org.mhacks.bestkorea.model
 
 import com.google.gson.JsonObject
+import com.google.gson.annotations.Expose
 import org.freedesktop.dbus.DBusConnection
 import org.mhacks.bestkorea.NEARD
 import kotlin.platform.platformStatic
@@ -23,13 +24,13 @@ class NfcRecord(connection: DBusConnection,
     override fun create(connection: DBusConnection, path: String) = NfcRecord(connection, path)
   }
 
-  val encoding: String by readOnlyProperty("Encoding")
-  val language: String by readOnlyProperty("Language")
-  val representation: String by readOnlyProperty("Representation")
-  val uri: String by readOnlyProperty("URI")
-  val mimeType: String by readOnlyProperty("MIMEType")
-  val size: Int by readOnlyProperty("Size")
-  val action: String by readOnlyProperty("Action")
-  val androidPackage: String by readOnlyProperty("AndroidPackage")
+  Expose val encoding: String by readOnlyProperty("Encoding")
+  Expose val language: String by readOnlyProperty("Language")
+  Expose val representation: String by readOnlyProperty("Representation")
+  Expose val uri: String by readOnlyProperty("URI")
+  Expose val mimeType: String by readOnlyProperty("MIMEType")
+  Expose val size: Int by readOnlyProperty("Size")
+  Expose val action: String by readOnlyProperty("Action")
+  Expose val androidPackage: String by readOnlyProperty("AndroidPackage")
 
 }
