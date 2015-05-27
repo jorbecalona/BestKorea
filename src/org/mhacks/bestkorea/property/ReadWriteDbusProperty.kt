@@ -1,6 +1,6 @@
 package org.mhacks.bestkorea.property
 
-import org.mhacks.bestkorea.model.DBusModel
+import org.mhacks.bestkorea.model.nfc.DBusModel
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}

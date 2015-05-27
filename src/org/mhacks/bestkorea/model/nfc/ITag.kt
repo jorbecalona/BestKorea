@@ -1,9 +1,9 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
 import org.freedesktop.dbus.DBusInterface
 import org.freedesktop.dbus.DBusInterfaceName
-import org.freedesktop.dbus.DBusSignal
 import org.freedesktop.dbus.Variant
+import org.mhacks.bestkorea.model
 
 /**
  * @author Damian Wieczorek {@literal <damian@farmlogs.com>}

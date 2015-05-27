@@ -1,7 +1,5 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
-import com.google.gson.JsonObject
-import com.google.gson.annotations.Expose
 import org.freedesktop.dbus.DBusConnection
 import org.mhacks.bestkorea.NEARD
 import kotlin.platform.platformStatic

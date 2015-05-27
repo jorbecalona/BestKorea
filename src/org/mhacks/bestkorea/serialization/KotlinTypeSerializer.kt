@@ -3,7 +3,7 @@ package org.mhacks.bestkorea.serialization
 import com.google.gson.*
 import com.google.gson.annotations.Expose
 import org.freedesktop.dbus.exceptions.DBusExecutionException
-import org.mhacks.bestkorea.model.NfcTag
+import org.mhacks.bestkorea.model.nfc.NfcTag
 import java.lang.reflect.Type
 import kotlin.reflect
 import kotlin.reflect.jvm.javaField

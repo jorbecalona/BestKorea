@@ -1,10 +1,10 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
-import com.google.gson.annotations.Expose
 import org.freedesktop.dbus.DBusConnection
 import org.freedesktop.dbus.Variant
 import org.mhacks.bestkorea.NEARD
 import org.mhacks.bestkorea.common.mapToStrings
+import org.mhacks.bestkorea.model
 import kotlin.platform.platformStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
@@ -33,7 +33,7 @@ class NfcTag(connection: DBusConnection,
   val adapterPath: String get() = get<Any>("Adapter").toString()
 
   val recordPaths: List<String> get() = get<List<*>>("Records").mapToStrings()
-  val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord)
+  val records: List<NfcRecord> get() = acquire(recordPaths, NfcRecord.Companion)
 
   override fun toString(): String = raw.toString()
 }

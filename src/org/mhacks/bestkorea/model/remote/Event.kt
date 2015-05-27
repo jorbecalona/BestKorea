@@ -1,6 +1,6 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.remote
 
-import com.google.gson.annotations.Expose
+import org.mhacks.bestkorea.model.nfc.NfcTag
 import java.util.*
 
 /**

@@ -1,4 +1,4 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
 import org.freedesktop.DBus
 import org.freedesktop.dbus.DBusConnection
@@ -7,8 +7,6 @@ import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.mhacks.bestkorea.NEARD
 import org.mhacks.bestkorea.property.ReadOnlyDbusProperty
 import org.mhacks.bestkorea.property.ReadWriteDbusProperty
-import kotlin.properties.ReadOnlyProperty
-import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
 import kotlin.reflect.jvm.kotlin

@@ -1,11 +1,9 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
 import org.freedesktop.dbus.DBusConnection
-import org.freedesktop.dbus.exceptions.DBusExecutionException
 import org.mhacks.bestkorea.NEARD
 import org.mhacks.bestkorea.common.mapToStrings
-import org.mhacks.bestkorea.model.NfcTag
-import java.util.*
+import org.mhacks.bestkorea.model
 import kotlin.platform.platformStatic
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
@@ -44,6 +42,6 @@ class NfcAdapter(connection: DBusConnection,
   val protocols: List<String> by readOnlyProperty("Protocols")
 
   val tagPaths: List<String> get() = get<List<*>>("Tags").mapToStrings()
-  val tags: List<NfcTag> get() = acquire(tagPaths, NfcTag)
+  val tags: List<NfcTag> get() = acquire(tagPaths, NfcTag.Companion)
 
 }

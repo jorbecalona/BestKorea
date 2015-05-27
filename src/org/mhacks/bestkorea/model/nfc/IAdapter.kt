@@ -1,4 +1,4 @@
-package org.mhacks.bestkorea.model
+package org.mhacks.bestkorea.model.nfc
 
 import org.freedesktop.dbus.DBusInterface
 import org.freedesktop.dbus.DBusInterfaceName

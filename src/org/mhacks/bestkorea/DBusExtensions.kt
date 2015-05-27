@@ -3,10 +3,10 @@ package org.mhacks.bestkorea
 import org.freedesktop.dbus.DBusConnection
 import org.freedesktop.dbus.DBusSigHandler
 import org.freedesktop.dbus.DBusSignal
-import org.mhacks.bestkorea.model.IAdapter
-import org.mhacks.bestkorea.model.ITag
-import org.mhacks.bestkorea.model.NfcAdapter
-import org.mhacks.bestkorea.model.NfcTag
+import org.mhacks.bestkorea.model.nfc.IAdapter
+import org.mhacks.bestkorea.model.nfc.ITag
+import org.mhacks.bestkorea.model.nfc.NfcAdapter
+import org.mhacks.bestkorea.model.nfc.NfcTag
 import kotlin.reflect.KClass
 import kotlin.reflect.jvm.java
 

@@ -14,6 +14,8 @@ import org.mhacks.bestkorea.common.asAddress
 import org.mhacks.bestkorea.common.hardwareAddress
 import org.mhacks.bestkorea.common.networkInterface
 import org.mhacks.bestkorea.model.*
+import org.mhacks.bestkorea.model.nfc.NfcAdapter
+import org.mhacks.bestkorea.model.remote.Event
 import org.mhacks.bestkorea.serialization.KotlinTypeSerializer
 import java.net.InetAddress
 import java.net.NetworkInterface
@@ -41,6 +43,9 @@ fun main(args: Array<String>) {
   adapter.powered = true
   println("Creating API service...")
   val service = DdpApi()
+  service.subscribe("units") {
+    println(it)
+  }
   println("Ready!")
   while (true) {
     if (!adapter.polling) adapter.startPollLoop(NfcAdapter.PollMode.DUAL)
@@ -49,7 +54,7 @@ fun main(args: Array<String>) {
       try {
         val tag = foo.firstOrNull()
         if (tag != null) {
-          service.createEvent(Event(mac, tag))
+          service.addEvent(Event(mac, tag))
         }
         println(tag)
       } catch (error: DBusExecutionException) {

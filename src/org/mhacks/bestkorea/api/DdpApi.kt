@@ -5,10 +5,11 @@ import com.google.gson.GsonBuilder
 import com.keysolutions.ddpclient.DDPClient
 import com.keysolutions.ddpclient.DDPListener
 import org.jetbrains.kotlin.utils.keysToMap
-import org.mhacks.bestkorea.model.DBusModel
-import org.mhacks.bestkorea.model.Event
-import org.mhacks.bestkorea.model.NfcRecord
-import org.mhacks.bestkorea.model.NfcTag
+import org.mhacks.bestkorea.model.nfc.DBusModel
+import org.mhacks.bestkorea.model.remote.Event
+import org.mhacks.bestkorea.model.nfc.NfcRecord
+import org.mhacks.bestkorea.model.nfc.NfcTag
+import org.mhacks.bestkorea.model.remote.RemoteModel
 import org.mhacks.bestkorea.serialization.KotlinTypeSerializer
 import kotlin.reflect.jvm.kotlin
 
@@ -26,31 +27,16 @@ class DdpApi {
 
   init {
     ddp.connect()
+//    ddp.addObserver { observable, any ->
+//      println("Observed ${observable.toString()}: ${any.toString()}")
+//    }
   }
 
-  fun createEvent(event: Event) {
-    println("Insert: ${ddp.collectionInsert("events", serialize(event), object: DDPListener() {
-      override fun onReady(callId: String?) {
-        println("Ready: $callId")
-      }
-
-      override fun onUpdated(callId: String?) {
-        println("Updated: $callId")
-      }
-
-      override fun onNoSub(callId: String?, errorFields: MutableMap<String, Any>?) {
-        println("NoSub: $callId, $errorFields")
-      }
-
-      override fun onPong(pingId: String?) {
-        println("Pong: $pingId")
-      }
-
-      override fun onResult(resultFields: MutableMap<String, Any>?) {
-        println("Result: $resultFields")
-      }
-    })}")
-  }
+  fun insert(model: RemoteModel) = ddp.collectionInsert(model.collection, serialize(model))
+  fun subscribe(collection: String, params: Array<*> = arrayOf<Any?>(), onUpdated: (String) -> Unit) = ddp.subscribe(collection, params, object: DDPListener() {
+    override fun onUpdated(callId: String) = onUpdated(callId)
+  })
+  fun addEvent(event: Event) = ddp.call("addEvent", arrayOf(serialize(event)))
 
   fun serialize(source: Any): Map<String, *> = mapOf(*source.javaClass.kotlin.properties.mapNotNull {
     it.name to it.get(source)
