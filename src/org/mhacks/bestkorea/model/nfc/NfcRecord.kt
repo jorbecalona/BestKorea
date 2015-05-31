@@ -17,7 +17,7 @@ class NfcRecord(connection: DBusConnection,
                 iface: IRecord = connection.getRemoteObject(NEARD, objectPath, type.java))
 : DBusModel<IRecord>(type, NfcRecord.INTERFACE, connection, objectPath, iface = iface), IRecord by iface {
 
-  companion object: DBusModel.Factory<NfcRecord> {
+  companion object : DBusModel.Factory<NfcRecord> {
     platformStatic val INTERFACE = "$NEARD.Record"
     override fun create(connection: DBusConnection, path: String) = NfcRecord(connection, path)
   }

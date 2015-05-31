@@ -9,5 +9,4 @@ import java.util.*
  * (C) 2015 Damian Wieczorek
  */
 data class Event(val mac: String,
-                 val tag: NfcTag,
-                 val date: Date = Date())
+                 val tag_id: String)

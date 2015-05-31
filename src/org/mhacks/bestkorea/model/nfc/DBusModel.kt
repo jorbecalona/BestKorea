@@ -16,16 +16,16 @@ import kotlin.reflect.jvm.kotlin
  * @since 15/05/15
  * (C) 2015 Damian Wieczorek
  */
-abstract class DBusModel <T: DBusInterface> (
-    val type: KClass<T>,
-    val interfaceName: String,
-    val connection: DBusConnection,
-    val objectPath: String,
-    val properties: DBus.Properties = connection.getRemoteObject(NEARD, objectPath, javaClass<DBus.Properties>()),
-    val iface: T = connection.getRemoteObject(NEARD, objectPath, type.java))
+abstract class DBusModel <T : DBusInterface>(
+  val type: KClass<T>,
+  val interfaceName: String,
+  val connection: DBusConnection,
+  val objectPath: String,
+  val properties: DBus.Properties = connection.getRemoteObject(NEARD, objectPath, javaClass<DBus.Properties>()),
+  val iface: T = connection.getRemoteObject(NEARD, objectPath, type.java))
 : DBus.Properties by properties {
 
-  trait Factory<T: DBusModel<*>> {
+  interface Factory<T : DBusModel<*>> {
     fun create(connection: DBusConnection, path: String): T
   }
 
@@ -36,7 +36,7 @@ abstract class DBusModel <T: DBusInterface> (
   fun <T> get(propertyName: String): T = Get(interfaceName, propertyName)
   fun <T> set(propertyName: String, propertyValue: T) = Set(interfaceName, propertyName, propertyValue)
 
-  fun <T: DBusModel<*>> acquire(paths: List<String>, factory: Factory<T>) = paths.flatMap {
+  fun <T : DBusModel<*>> acquire(paths: List<String>, factory: Factory<T>) = paths.flatMap {
     try {
       listOf(factory.create(connection, it))
     } catch (error: DBusExecutionException) {

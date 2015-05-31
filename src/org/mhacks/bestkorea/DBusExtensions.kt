@@ -16,15 +16,18 @@ import kotlin.reflect.jvm.java
  * (C) 2015 Damian Wieczorek
  */
 val DBusConnection.adapter: NfcAdapter get() = NfcAdapter(this, "/org/neard/nfc0")
-fun <T: DBusSignal> toSigHandler(body: (T) -> Unit) = object: DBusSigHandler<T> {
+
+fun <T : DBusSignal> toSigHandler(body: (T) -> Unit) = object : DBusSigHandler<T> {
   override fun handle(p0: T) {
     body(p0)
   }
 }
-fun <T: DBusSignal> DBusConnection.addSigHandler(type: KClass<T>, body: (T) -> Unit) = addSigHandler(type.java, toSigHandler(body))
+
+fun <T : DBusSignal> DBusConnection.addSigHandler(type: KClass<T>, body: (T) -> Unit) = addSigHandler(type.java, toSigHandler(body))
 fun DBusConnection.onTagFound(body: (NfcTag) -> Unit) = addSigHandler(IAdapter.TagFound::class) { signal ->
   body(NfcTag(this))
 }
+
 fun DBusConnection.onTagLost(body: (String) -> Unit) = addSigHandler(IAdapter.TagLost::class) { signal ->
   body(signal.address)
 }

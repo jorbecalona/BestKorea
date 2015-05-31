@@ -10,7 +10,7 @@ import org.mhacks.bestkorea.model
  * @since 15/05/15
  * (C) 2015 Damian Wieczorek
  */
-DBusInterfaceName(NfcTag.INTERFACE) public trait ITag : DBusInterface {
+DBusInterfaceName(NfcTag.INTERFACE) public interface ITag : DBusInterface {
   public fun Write(values: Map<String, Variant<String>>)
   public fun GetRawNDEF(): ByteArray
 }

@@ -20,7 +20,9 @@ class KotlinTypeSerializer : JsonSerializer<Any> {
     source.javaClass.kotlin.properties.forEach {
       val value = try {
         context.serialize(it.get(source))
-      } catch (error: Exception) { null }
+      } catch (error: Exception) {
+        null
+      }
       dest.add(it.name, value)
     }
     dest

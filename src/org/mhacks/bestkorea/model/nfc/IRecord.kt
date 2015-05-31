@@ -9,4 +9,4 @@ import org.mhacks.bestkorea.model
  * @since 19/05/15
  * (C) 2015 Damian Wieczorek
  */
-DBusInterfaceName(NfcRecord.INTERFACE) public trait IRecord : DBusInterface
+DBusInterfaceName(NfcRecord.INTERFACE) public interface IRecord : DBusInterface

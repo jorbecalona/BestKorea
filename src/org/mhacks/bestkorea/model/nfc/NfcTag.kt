@@ -20,7 +20,7 @@ class NfcTag(connection: DBusConnection,
              iface: ITag = connection.getRemoteObject(NEARD, objectPath, type.java))
 : DBusModel<ITag>(type, NfcTag.INTERFACE, connection, objectPath, iface = iface), ITag by iface {
 
-  companion object: DBusModel.Factory<NfcTag> {
+  companion object : DBusModel.Factory<NfcTag> {
     platformStatic val INTERFACE = "$NEARD.Tag"
     override fun create(connection: DBusConnection, path: String) = NfcTag(connection, path)
   }

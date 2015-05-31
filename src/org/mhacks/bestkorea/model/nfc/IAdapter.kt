@@ -9,7 +9,7 @@ import org.freedesktop.dbus.DBusSignal
  * @since 15/05/15
  * (C) 2015 Damian Wieczorek
  */
-DBusInterfaceName(NfcAdapter.INTERFACE) public trait IAdapter : DBusInterface {
+DBusInterfaceName(NfcAdapter.INTERFACE) public interface IAdapter : DBusInterface {
   public fun StartPollLoop(name: String)
   public fun StopPollLoop()
 

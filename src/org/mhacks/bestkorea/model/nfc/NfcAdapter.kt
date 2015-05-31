@@ -24,9 +24,9 @@ class NfcAdapter(connection: DBusConnection,
   }
 
   enum class PollMode {
-    INITIATOR
-    TARGET
-    DUAL
+    INITIATOR,
+    TARGET,
+    DUAL;
 
     val name: String = name().toLowerCase() let {
       it.replaceRange(0..1, it[0].toUpperCase().toString())

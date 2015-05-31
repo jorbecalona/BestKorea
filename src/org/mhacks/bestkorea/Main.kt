@@ -29,8 +29,8 @@ import java.util.*
  */
 
 /**
-* Neard package namespace
-*/
+ * Neard package namespace
+ */
 val NEARD = "org.neard"
 
 fun main(args: Array<String>) {
@@ -47,11 +47,11 @@ fun main(args: Array<String>) {
   while (true) {
     if (!adapter.polling) adapter.startPollLoop(NfcAdapter.PollMode.DUAL)
     val foo = adapter.tags
-    if (foo.isNotEmpty())  {
+    if (foo.isNotEmpty()) {
       try {
         val tag = foo.firstOrNull()
         if (tag != null) {
-          service.addEvent(Event(mac, tag))
+          service.addTapEvent(Event(mac, "123e4567-e89b-12d3-a456-426655440000"))
         }
         println(tag)
       } catch (error: DBusExecutionException) {
