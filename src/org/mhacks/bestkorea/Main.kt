@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
   println("Powering...")
   adapter.powered = true
   println("Creating API service...")
-  val service = DdpApi()
+  val service = DdpApi(mac)
   println("Ready!")
   while (true) {
     if (!adapter.polling) adapter.startPollLoop(NfcAdapter.PollMode.DUAL)
